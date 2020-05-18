@@ -1,95 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="819.0" prefWidth="1228.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shooter.streetMap.street">
    <children>
-      <ImageView fitHeight="819.0" fitWidth="1228.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="streetBcg" fitHeight="819.0" fitWidth="1228.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Base/bcgStreet.png" />
+            <Image url="@../images/bcgStreet.png" />
          </image>
       </ImageView>
-      <Pane fx:id="seven" layoutX="839.0" layoutY="398.0" prefHeight="169.0" prefWidth="137.0" visible="false">
+      <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="819.0" prefWidth="1228.0" text="Button" />
+      <Pane fx:id="seven" layoutX="819.0" layoutY="399.0" prefHeight="150.0" prefWidth="150.0" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Base/terrorist.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="45.0" layoutY="53.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
-            <Button layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="34.0" text="head" />
+            <ImageView fx:id="enemySeven" fitHeight="158.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="150.0" prefWidth="150.0" text="missed" />
+            <Button layoutX="38.0" layoutY="43.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
+            <Button layoutX="55.0" layoutY="3.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="37.0" text="head" />
          </children>
       </Pane>
-      <Pane fx:id="six" layoutX="264.0" layoutY="410.0" prefHeight="169.0" prefWidth="137.0" visible="false">
+      <Pane fx:id="six" layoutX="307.0" layoutY="417.0" prefHeight="150.0" prefWidth="150.0" style="-fx-rotate: 30deg;" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Base/terrorist.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="46.0" layoutY="53.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
-            <Button layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="34.0" text="head" />
+            <ImageView fx:id="enemySix" fitHeight="158.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="150.0" prefWidth="150.0" text="missed" />
+            <Button layoutX="33.0" layoutY="37.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
+            <Button layoutX="55.0" layoutY="3.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="37.0" text="head" />
          </children>
       </Pane>
-      <Pane fx:id="five" layoutX="716.0" layoutY="284.0" prefHeight="169.0" prefWidth="137.0" visible="false">
+      <Pane fx:id="five" layoutX="721.0" layoutY="285.0" prefHeight="150.0" prefWidth="150.0" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Base/terrorist.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="45.0" layoutY="53.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
-            <Button layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="34.0" text="head" />
+            <ImageView fx:id="enemyFive" fitHeight="158.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="150.0" prefWidth="150.0" text="missed" />
+            <Button layoutX="38.0" layoutY="43.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
+            <Button layoutX="55.0" layoutY="3.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="37.0" text="head" />
          </children>
       </Pane>
-      <Pane fx:id="four" layoutX="415.0" layoutY="314.0" prefHeight="169.0" prefWidth="137.0" visible="false">
+      <Pane fx:id="four" layoutX="437.0" layoutY="312.0" prefHeight="150.0" prefWidth="150.0" style="-fx-rotate: 30deg;" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Base/terrorist.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="45.0" layoutY="53.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
-            <Button layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="34.0" text="head" />
+            <ImageView fx:id="enemyFour" fitHeight="158.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="150.0" prefWidth="150.0" text="missed" />
+            <Button layoutX="38.0" layoutY="43.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
+            <Button layoutX="55.0" layoutY="3.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="37.0" text="head" />
          </children>
       </Pane>
-      <Pane fx:id="three" layoutX="511.0" layoutY="164.0" prefHeight="169.0" prefWidth="137.0" visible="false">
+      <Pane fx:id="three" layoutX="495.0" layoutY="168.0" prefHeight="150.0" prefWidth="150.0" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Base/terrorist.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="45.0" layoutY="53.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
-            <Button layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="34.0" text="head" />
+            <ImageView fx:id="enemyThree" fitHeight="158.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="150.0" prefWidth="150.0" text="missed" />
+            <Button layoutX="38.0" layoutY="43.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
+            <Button layoutX="55.0" layoutY="3.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="37.0" text="head" />
          </children>
       </Pane>
-      <Pane fx:id="two" layoutX="792.0" layoutY="62.0" prefHeight="169.0" prefWidth="137.0" visible="false">
+      <Pane fx:id="two" layoutX="721.0" layoutY="75.0" prefHeight="150.0" prefWidth="150.0" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Base/terrorist.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="45.0" layoutY="53.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
-            <Button layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="34.0" text="head" />
+            <ImageView fx:id="enemyTwo" fitHeight="158.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="150.0" prefWidth="150.0" text="missed" />
+            <Button layoutX="38.0" layoutY="43.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
+            <Button layoutX="55.0" layoutY="3.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="37.0" text="head" />
          </children>
       </Pane>
-      <Pane fx:id="one" layoutX="347.0" layoutY="25.0" prefHeight="169.0" prefWidth="137.0" visible="false">
+      <Pane fx:id="one" layoutX="376.0" layoutY="41.0" prefHeight="150.0" prefWidth="150.0" style="-fx-rotate: 30deg;" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Base/terrorist.png" />
-               </image>
-            </ImageView>
-            <Button layoutX="45.0" layoutY="53.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
-            <Button layoutX="65.0" layoutY="13.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="34.0" text="head" />
+            <ImageView fx:id="enemyOne" fitHeight="158.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#missClick" opacity="0.0" prefHeight="150.0" prefWidth="150.0" text="missed" />
+            <Button layoutX="38.0" layoutY="43.0" mnemonicParsing="false" onAction="#body" opacity="0.0" prefHeight="107.0" prefWidth="75.0" text="body" />
+            <Button layoutX="55.0" layoutY="3.0" mnemonicParsing="false" onAction="#head" opacity="0.0" prefHeight="40.0" prefWidth="37.0" text="head" />
          </children>
       </Pane>
-      <Button fx:id="startButton" layoutX="388.0" layoutY="314.0" mnemonicParsing="false" onAction="#start" prefHeight="150.0" prefWidth="383.0" style="-fx-border-color: transparent; -fx-background-color: transparent; -fx-font-size: 10em;" text="Start" textFill="#c8d900" />
+      <Pane fx:id="nameEnter" layoutX="514.0" layoutY="299.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgreen;">
+         <children>
+            <Text layoutX="13.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 1.5em;" text="Enter your name!" textAlignment="CENTER" wrappingWidth="174.46728515625" />
+            <TextField fx:id="nameTF" layoutX="15.0" layoutY="87.0" />
+            <Button layoutX="41.0" layoutY="138.0" mnemonicParsing="false" onAction="#start" prefHeight="40.0" prefWidth="118.0" text="Start" />
+         </children>
+      </Pane>
+      <Pane fx:id="ingameScore" layoutX="1000.0" layoutY="348.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #8a9a5b;">
+         <children>
+            <Text fx:id="scoreT" layoutX="15.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="Score:" wrappingWidth="170.248046875" />
+            <Label fx:id="timeL" layoutX="15.0" layoutY="55.0" prefHeight="31.0" prefWidth="170.0" style="-fx-font-size: 2em;" text="Time:" />
+         </children>
+      </Pane>
+      <Pane fx:id="results" layoutX="382.0" layoutY="211.0" prefHeight="399.0" prefWidth="465.0" style="-fx-background-color: #8a9a5b;" visible="false">
+         <children>
+            <Text fx:id="goodJobT" layoutX="1.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em;" text="Good job!" textAlignment="CENTER" wrappingWidth="465.0">
+               <font>
+                  <Font name="Serif Regular" size="13.0" />
+               </font>
+            </Text>
+            <Text layoutX="83.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="You have earned 100 points under:" textAlignment="CENTER" wrappingWidth="296.7294921875" />
+            <Text fx:id="killedT" layoutX="47.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="and killed x terrorist." textAlignment="CENTER" wrappingWidth="367.7177734375" />
+            <Text fx:id="missedT" layoutX="6.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="missed" textAlignment="CENTER" wrappingWidth="450.0" />
+            <Text fx:id="finalTimeT" layoutX="56.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="finaltime" textAlignment="CENTER" wrappingWidth="350.46728515625" />
+            <Text fx:id="nameT" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name" visible="false" />
+            <Text fx:id="finalScoreT" layoutX="6.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="Your calculated score is:" textAlignment="CENTER" wrappingWidth="450.0" />
+            <Text fx:id="finalTimeSecT" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="finalTimeSecT" visible="false" />
+            <Button layoutX="158.0" layoutY="327.0" mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #8a9a5b; -fx-font-size: 2.5em; -fx-border-radius: 10em;" text="Menu" textFill="#f1ff2d" />
+         </children>
+      </Pane>
+      <Button fx:id="exitB" layoutX="1095.0" layoutY="736.0" mnemonicParsing="false" onAction="#exit" prefHeight="45.0" prefWidth="105.0" style="-fx-background-color: #8a9a5b; -fx-font-size: 2.5em; -fx-border-radius: 10em;" text="Exit" textFill="#f1ff2d" />
    </children>
+   <cursor>
+      <Cursor fx:constant="CROSSHAIR" />
+   </cursor>
 </AnchorPane>

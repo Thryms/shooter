@@ -1,4 +1,4 @@
-package shooter.streetMap;
+package shooter.controllers;
 
 
 import javafx.animation.Animation;

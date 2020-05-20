@@ -1,4 +1,4 @@
-package shooter;
+package shooter.controllers;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -48,6 +48,14 @@ public class Menu {
     public void goPlay(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/playFXML.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
+        a.pause();
+    }
+
+    public void highscore(ActionEvent event) throws IOException{
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/highscore.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
         a.pause();

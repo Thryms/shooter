@@ -26,18 +26,22 @@ public class Menu {
 
     /**
      * In the {@code initialize} we load the images of the buttons and the background. Then we call the {@code music}
-     * method, where we start the background music, setting it's volume to 80% also making sure it keeps repeating
-     * if the sound file comes to an end.
+     * method.
      */
     @FXML
     public void initialize(){
-        menuBcg.setImage(new Image(getClass().getResource("/images/menuBcg.png").toExternalForm()));
-        playBcg.setImage(new Image(getClass().getResource("/images/playBcg.png").toExternalForm()));
-        highscoreBcg.setImage(new Image(getClass().getResource("/images/highscoreBcg.png").toExternalForm()));
-        exitBcg.setImage(new Image(getClass().getResource("/images/exitBcg.png").toExternalForm()));
+        menuBcg.setImage(new Image(getClass().getResource("/images/menuS/menuBcg.png").toExternalForm()));
+        playBcg.setImage(new Image(getClass().getResource("/images/menuS/playBcg.png").toExternalForm()));
+        highscoreBcg.setImage(new Image(getClass().getResource("/images/menuS/highscoreBcg.png").toExternalForm()));
+        exitBcg.setImage(new Image(getClass().getResource("/images/menuS/exitBcg.png").toExternalForm()));
         music();
     }
 
+    /**
+     * Start the background music, setting it's volume to 80% also making sure it keeps repeating if the sound file
+     * comes to an end. [Also the MediaPlayer has to be declared in the class outside of this method else the
+     * music will stop after few seconds!]
+     */
     private void music(){
         Media med = new Media(getClass().getResource("/sounds/menuMusic.mp3").toExternalForm());
         a =new MediaPlayer(med);

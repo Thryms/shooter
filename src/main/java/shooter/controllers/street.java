@@ -48,21 +48,20 @@ public class street {
     private long start, millisElapsed;
     private MediaPlayer a;
     private double finScore;
-    private File scoreFile;
 
     /**
      * Here we load the background, also call the {@code music} method.
      */
     @FXML
     public void initialize(){
-        streetBcg.setImage(new Image(getClass().getResource("/images/bcgStreet.png").toExternalForm()));
-        //scoreFile = new File((getClass().getResource("/scores/scores.txt").toExternalForm()));
+        streetBcg.setImage(new Image(getClass().getResource("/images/street/bcgStreet.png").toExternalForm()));;
         music();
     }
 
     /**
      * This is connected to the play button, when pressed it calls two methods.
      * @param event Click on button.
+     * @throws IOException
      */
     public void start(ActionEvent event) throws IOException {
         getName();
@@ -70,12 +69,15 @@ public class street {
     }
 
     /**
-     * This method called by {@code start} checks the field where the player puts his/her name, if there is something
-     * there the text of {@code nameT} will be that. Otherwise the default name of the player is "player".
+     * This method called by {@code start} checks the field where the player puts his/her name, if the name
+     * is 3 character long {@code nameT} will be that in uppercase. If the given name is longer the 3 characters
+     * then it will cut the first 3 characters and store stat. Else the basic name is "AAA".
      */
     private void getName() {
         if (nameTF.getText() != null && !nameTF.getText().isEmpty() && nameTF.getText().length() == 3) {
             nameT.setText((nameTF.getText().toUpperCase()));
+        } else if (nameTF.getText() != null && !nameTF.getText().isEmpty() && nameTF.getText().length() > 3){
+            nameT.setText(nameTF.getText().toUpperCase().substring(0,3));
         } else {
             nameT.setText("AAA");
         }
@@ -83,6 +85,8 @@ public class street {
 
     /**
      * This method loads and starts the music at 60% volume, also making sure if the file ends it starts over.
+     * [Also the MediaPlayer has to be declared in the class outside of this method else the
+     * music will stop after few seconds!]
      */
     private void music() {
         Media med = new Media(getClass().getResource("/sounds/streetMusic.mp3").toExternalForm());
@@ -101,6 +105,7 @@ public class street {
      * if-else because it worked the best for me. In the if it deletes the window, and calls itself, where it goes
      * in the else, where it sets the score text, also starting the timer under it (shown on the side of the window)
      * and calls {@code scoreCheck}.
+     * @throws IOException
      */
     private void deleteStart() throws IOException {
         if (startOn) {
@@ -130,6 +135,7 @@ public class street {
     /**
      * Here is a simple if-else block, but this is the center of the game. This is called after every enemy shot.
      * It calls {@code enemy} method until the player reaches the 100 points.
+     * @throws IOException
      */
     private void scoreCheck() throws IOException {
         if (score < 100) {
@@ -156,7 +162,7 @@ public class street {
             Pane[] enemies = {one, two, three, four, five, six, seven};
             ImageView[] terrorist = {enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven};
             thisEnemy = enemies[whichEnemy];
-            terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/terrorist.png").toExternalForm()));
+            terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/street/terrorist.png").toExternalForm()));
             thisEnemy.setVisible(true);
         }
     }
@@ -169,7 +175,8 @@ public class street {
     /**
      * This is the longest method so it makes a lot of things. First it deletes the score field and the exit button
      * and makes the result field visible. Then it prints things (the name, the time, the kills, the missed
-     * shots, and also the score) on it.
+     * shots, and also the score) on it. At he end it calls method {@code storeScore}.
+     * @throws IOException
      */
     private void win() throws IOException {
         ingameScore.setVisible(false);
@@ -189,7 +196,6 @@ public class street {
         finalScoreT.setText("Your calculated score is: " + calculateScore());
         storeScore();
     }
-    //TODO: kommentekbe oda kell ranki az ioexeption dobását.
 
     /**
      * Here it calculates a score for the player this way it is easier for them to now measure performance.
@@ -203,25 +209,14 @@ public class street {
         return (int)finScore;
     }
 
+    /**
+     * This as it's name says stores the score the player got. It writes the data in a text file, with a space
+     * between each data of course keeping the old data too. [The text file could be called only this way. If it's
+     * being set with classloader the FileWriter won't found it, and there will be an error. This error does not
+     * occur only if the file is in the root directory, this way i put it there.]
+     * @throws IOException
+     */
     private void storeScore() throws IOException {
-        /*
-        //File scoreTxt = new File((getClass().getResource("/scores/score.txt").toExternalForm()));
-        //File scoreTxt = new File("scoreTxt");
-        //FileOutputStream fos = new FileOutputStream(scoreTxt);
-        FileOutputStream fos = new FileOutputStream("score.txt");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-        oos.writeObject(nameT.getText());
-        oos.writeObject(finalTimeT.getText());
-        oos.writeInt(killed);
-        oos.writeInt(missedShots);
-        oos.writeInt((int)finScore);
-        oos.close();
-
-        //File scoreBaseTxt = new File("score.txt");
-        //scoreFile += scoreBaseTxt;*/
-
-        //FileWriter fw = new FileWriter(scoreFile,true);
         FileWriter fw = new FileWriter("scores.txt",true);
         BufferedWriter writer = new BufferedWriter(fw);
             writer.write(nameT.getText());
@@ -239,6 +234,7 @@ public class street {
      * right and deletes the enemy. It also calls the {@code shot} method, which plays the sound of a shot.
      * At the end calls the {@code scoreCheck}.
      * @param event Click on hitbox/button
+     * @throws IOException
      */
     public void body(ActionEvent event) throws IOException {
         shot();
@@ -252,6 +248,7 @@ public class street {
     /**
      * This works like the {@code body} but it is attached to a button on the head and it gives 2 points.
      * @param event Click on hitbox/button
+     * @throws IOException
      */
     public void head(ActionEvent event) throws IOException {
         shot();
@@ -273,7 +270,8 @@ public class street {
     }
 
     /**
-     * The {@code shot} method as described earlier it loads and plays the sound of a shot.
+     * The {@code shot} method as described earlier it loads and plays the sound of a shot. But here we need to
+     * declare the MediaPlayer locally because we want to play the sound multiple times.
      */
     private void shot(){
         Media med = new Media(getClass().getResource("/sounds/shot.mp3").toExternalForm());

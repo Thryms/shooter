@@ -9,8 +9,19 @@
 <AnchorPane prefHeight="819.0" prefWidth="1228.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shooter.controllers.HighScore">
    <children>
       <ImageView fx:id="hsBcg" fitHeight="819.0" fitWidth="1228.0" pickOnBounds="true" preserveRatio="true" />
-      <TextArea fx:id="textArea" editable="false" layoutX="152.0" layoutY="282.0" prefHeight="454.0" prefWidth="924.0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em; -fx-background-color: #8a9a5b;" wrapText="true" />
-      <Button fx:id="menuB" layoutX="526.0" layoutY="744.0" mnemonicParsing="false" onAction="#menuGoGo" prefHeight="47.0" prefWidth="177.0" text="Menu" />
-      <Text layoutX="307.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em;" text="Name" />
+      <TextArea fx:id="textArea" editable="false" layoutX="152.0" layoutY="282.0" prefHeight="454.0" prefWidth="924.0" promptText="AAA     0000     00:00     0       0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em; -fx-background-color: #8a9a5b;" />
+      <ImageView fx:id="menuButtonIV" fitHeight="54.0" fitWidth="177.0" layoutX="527.0" layoutY="751.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="menuB" layoutX="527.0" layoutY="751.0" mnemonicParsing="false" onAction="#menuGoGo" opacity="0.0" prefHeight="54.0" prefWidth="177.0" text="Menu" />
+      <Text fill="WHITE" layoutX="153.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em;" text="Name    Score     Time   Misses   Kills" wrappingWidth="924.0" />
+      <Text fill="WHITE" layoutX="105.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="1." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="2." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="3." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="4." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="5." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="518.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="6." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="558.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="7." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="598.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="8." />
+      <Text fill="WHITE" layoutX="105.0" layoutY="638.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="9." />
+      <Text fill="WHITE" layoutX="82.0" layoutY="677.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 3em; -fx-font-family: FreeMono, monospace;" text="10." />
    </children>
 </AnchorPane>

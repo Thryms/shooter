@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Random;
 
 public class street {
@@ -48,25 +48,42 @@ public class street {
     private long start, millisElapsed;
     private MediaPlayer a;
     private double finScore;
+    private File scoreFile;
 
+    /**
+     * Here we load the background, also call the {@code music} method.
+     */
     @FXML
     public void initialize(){
         streetBcg.setImage(new Image(getClass().getResource("/images/bcgStreet.png").toExternalForm()));
+        //scoreFile = new File((getClass().getResource("/scores/scores.txt").toExternalForm()));
         music();
     }
 
-    public void start(ActionEvent event) {
+    /**
+     * This is connected to the play button, when pressed it calls two methods.
+     * @param event Click on button.
+     */
+    public void start(ActionEvent event) throws IOException {
         getName();
         deleteStart();
     }
 
+    /**
+     * This method called by {@code start} checks the field where the player puts his/her name, if there is something
+     * there the text of {@code nameT} will be that. Otherwise the default name of the player is "player".
+     */
     private void getName() {
-        if (nameTF.getText() != null && !nameTF.getText().isEmpty()) {
-            nameT.setText(nameTF.getText());
+        if (nameTF.getText() != null && !nameTF.getText().isEmpty() && nameTF.getText().length() == 3) {
+            nameT.setText((nameTF.getText().toUpperCase()));
         } else {
-            nameT.setText("player");
+            nameT.setText("AAA");
         }
     }
+
+    /**
+     * This method loads and starts the music at 60% volume, also making sure if the file ends it starts over.
+     */
     private void music() {
         Media med = new Media(getClass().getResource("/sounds/streetMusic.mp3").toExternalForm());
         a = new MediaPlayer(med);
@@ -79,7 +96,13 @@ public class street {
         });
     }
 
-    private void deleteStart() {
+    /**
+     * This deletes the little window where the user puts its name, it is called by the {@code start} method. It is an
+     * if-else because it worked the best for me. In the if it deletes the window, and calls itself, where it goes
+     * in the else, where it sets the score text, also starting the timer under it (shown on the side of the window)
+     * and calls {@code scoreCheck}.
+     */
+    private void deleteStart() throws IOException {
         if (startOn) {
             nameEnter.setVisible(false);
             startOn = false;
@@ -91,6 +114,9 @@ public class street {
         }
     }
 
+    /**
+     * This timer counts the time for the program, it runs until the player wins.
+     */
     private void timer() {
         start = System.currentTimeMillis();
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
@@ -101,7 +127,11 @@ public class street {
         timeline.play();
     }
 
-    private void scoreCheck() {
+    /**
+     * Here is a simple if-else block, but this is the center of the game. This is called after every enemy shot.
+     * It calls {@code enemy} method until the player reaches the 100 points.
+     */
+    private void scoreCheck() throws IOException {
         if (score < 100) {
             enemy();
         } else {
@@ -109,6 +139,15 @@ public class street {
         }
     }
 
+    /**
+     * Here the program spawns the enemies on the map. Firs we call {@code random} where we get a random number between
+     * 0 an 7 (7 not included). The it checks if the random number is different than the last one, this way the enemy
+     * will spawn in different locations every time. If the random number (aka {@code whichEnemy}) is the same as the
+     * {@code lastEnemy} the it calls itself, this way getting a new random number. It goes until the new number won't
+     * be the same as the last.
+     * In the else it makes an array of the Panes which represent the enemies and also an array of the
+     * {@code ImageView}s. Then it loads the image on the {@code ImageView} of the chosen Pane and makes that active.
+     */
     private void enemy() {
         random();
         if (whichEnemy == lastEnemy) {
@@ -121,14 +160,18 @@ public class street {
             thisEnemy.setVisible(true);
         }
     }
-
     private void random() {
         lastEnemy = whichEnemy;
         Random random = new Random();
         whichEnemy = random.nextInt(7);
     }
 
-    private void win() {
+    /**
+     * This is the longest method so it makes a lot of things. First it deletes the score field and the exit button
+     * and makes the result field visible. Then it prints things (the name, the time, the kills, the missed
+     * shots, and also the score) on it.
+     */
+    private void win() throws IOException {
         ingameScore.setVisible(false);
         exitB.setVisible(false);
         results.setVisible(true);
@@ -144,8 +187,14 @@ public class street {
             missedT.setText("but missed " + missedShots + " shots.");
         }
         finalScoreT.setText("Your calculated score is: " + calculateScore());
+        storeScore();
     }
+    //TODO: kommentekbe oda kell ranki az ioexeption dobását.
 
+    /**
+     * Here it calculates a score for the player this way it is easier for them to now measure performance.
+     * @return The calculated score as Integer.
+     */
     private int calculateScore() {
         int finalTimeSecInt = Integer.parseInt(finalTimeSecT.getText());
         double scoreDub = score;
@@ -154,7 +203,44 @@ public class street {
         return (int)finScore;
     }
 
-    public void body(ActionEvent event) {
+    private void storeScore() throws IOException {
+        /*
+        //File scoreTxt = new File((getClass().getResource("/scores/score.txt").toExternalForm()));
+        //File scoreTxt = new File("scoreTxt");
+        //FileOutputStream fos = new FileOutputStream(scoreTxt);
+        FileOutputStream fos = new FileOutputStream("score.txt");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+        oos.writeObject(nameT.getText());
+        oos.writeObject(finalTimeT.getText());
+        oos.writeInt(killed);
+        oos.writeInt(missedShots);
+        oos.writeInt((int)finScore);
+        oos.close();
+
+        //File scoreBaseTxt = new File("score.txt");
+        //scoreFile += scoreBaseTxt;*/
+
+        //FileWriter fw = new FileWriter(scoreFile,true);
+        FileWriter fw = new FileWriter("scores.txt",true);
+        BufferedWriter writer = new BufferedWriter(fw);
+            writer.write(nameT.getText());
+            writer.write(" "+(int)finScore);
+            writer.write(" "+finalTimeT.getText());
+            writer.write(" "+missedShots);
+            writer.write(" "+killed);
+            writer.newLine();
+        writer.close();
+    }
+
+    /**
+     * This method is connected to an invisible button place on the body of the enemies. As said the body shot
+     * counts as one, so it raises the score by 1 like the number of kills. Also it changes the score text on the
+     * right and deletes the enemy. It also calls the {@code shot} method, which plays the sound of a shot.
+     * At the end calls the {@code scoreCheck}.
+     * @param event Click on hitbox/button
+     */
+    public void body(ActionEvent event) throws IOException {
         shot();
         ++score;
         ++killed;
@@ -163,7 +249,11 @@ public class street {
         scoreCheck();
     }
 
-    public void head(ActionEvent event) {
+    /**
+     * This works like the {@code body} but it is attached to a button on the head and it gives 2 points.
+     * @param event Click on hitbox/button
+     */
+    public void head(ActionEvent event) throws IOException {
         shot();
         score = score + 2;
         ++killed;
@@ -172,17 +262,31 @@ public class street {
         scoreCheck();
     }
 
+    /**
+     * Here it counts the miss shots, also playing the shot sound. It is on invisible buttons around the enemy objects
+     * and a big one which cowers the playing field.
+     * @param event Click on places where is no enemy or other button/pane.
+     */
     public void missClick(ActionEvent event) {
         ++missedShots;
         shot();
     }
 
+    /**
+     * The {@code shot} method as described earlier it loads and plays the sound of a shot.
+     */
     private void shot(){
         Media med = new Media(getClass().getResource("/sounds/shot.mp3").toExternalForm());
         MediaPlayer shot = new MediaPlayer(med);
         shot.play();
     }
 
+    /**
+     * The {@code exit} is connected to 2 buttons, one is the "Exit" at the lower right corner and the other one is
+     * when the game ends, called "Menu". It just loads the Menu scene and stops the timer.
+     * @param event Click on button (Exit & Menu)
+     * @throws IOException
+     */
     public void exit(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFXML.fxml"));

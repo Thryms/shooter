@@ -24,6 +24,11 @@ public class Menu {
 
     MediaPlayer a;
 
+    /**
+     * In the {@code initialize} we load the images of the buttons and the background. Then we call the {@code music}
+     * method, where we start the background music, setting it's volume to 80% also making sure it keeps repeating
+     * if the sound file comes to an end.
+     */
     @FXML
     public void initialize(){
         menuBcg.setImage(new Image(getClass().getResource("/images/menuBcg.png").toExternalForm()));
@@ -45,6 +50,11 @@ public class Menu {
         });
     }
 
+    /**
+     * This method is connected to the play button, when that pressed it loads the play scene.
+     * @param event Click on button.
+     * @throws IOException
+     */
     public void goPlay(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/playFXML.fxml"));
@@ -53,6 +63,11 @@ public class Menu {
         a.pause();
     }
 
+    /**
+     * This method is connected to HighScore button, when that pressed it loads the HighScore scene.
+     * @param event Click on button.
+     * @throws IOException
+     */
     public void highscore(ActionEvent event) throws IOException{
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/highscore.fxml"));
@@ -61,6 +76,10 @@ public class Menu {
         a.pause();
     }
 
+    /**
+     * This method is connected to the Exit button, when that pressed the program closes.
+     * @param event Click on button.
+     */
     public void exitApp(ActionEvent event) {
         Platform.exit();
     }

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="819.0" prefWidth="1228.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shooter.controllers.HighScore">
    <children>
-      <ImageView fitHeight="819.0" fitWidth="1228.0" pickOnBounds="true" preserveRatio="true" />
-      <TextArea layoutX="355.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0" />
-      <TextField layoutX="656.0" layoutY="262.0" prefHeight="163.0" prefWidth="277.0" />
+      <ImageView fx:id="hsBcg" fitHeight="819.0" fitWidth="1228.0" pickOnBounds="true" preserveRatio="true" />
+      <TextArea fx:id="textArea" editable="false" layoutX="152.0" layoutY="282.0" prefHeight="454.0" prefWidth="924.0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em; -fx-background-color: #8a9a5b;" wrapText="true" />
+      <Button fx:id="menuB" layoutX="526.0" layoutY="744.0" mnemonicParsing="false" onAction="#menuGoGo" prefHeight="47.0" prefWidth="177.0" text="Menu" />
+      <Text layoutX="307.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em;" text="Name" />
    </children>
 </AnchorPane>

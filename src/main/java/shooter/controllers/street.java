@@ -21,11 +21,13 @@ import javafx.scene.text.Text;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.*;
 import java.util.Random;
 
+@Slf4j
 public class street {
 
     @FXML
@@ -49,6 +51,7 @@ public class street {
     private MediaPlayer a;
     private double finScore;
 
+    //TODO: a throwokat módosítani, hoy mi miatt
     /**
      * Here we load the background, also call the {@code music} method.
      */
@@ -61,7 +64,7 @@ public class street {
     /**
      * This is connected to the play button, when pressed it calls two methods.
      * @param event Click on button.
-     * @throws IOException
+     * @throws IOException because of {@code deleteStart} method
      */
     public void start(ActionEvent event) throws IOException {
         getName();
@@ -81,6 +84,7 @@ public class street {
         } else {
             nameT.setText("AAA");
         }
+        log.info("The player name is set to {}", nameT.getText());
     }
 
     /**
@@ -98,6 +102,7 @@ public class street {
                 a.seek(Duration.ZERO);
             }
         });
+        log.info("Menu music started");
     }
 
     /**
@@ -105,7 +110,7 @@ public class street {
      * if-else because it worked the best for me. In the if it deletes the window, and calls itself, where it goes
      * in the else, where it sets the score text, also starting the timer under it (shown on the side of the window)
      * and calls {@code scoreCheck}.
-     * @throws IOException
+     * @throws IOException because of {@code scoreCheck} method
      */
     private void deleteStart() throws IOException {
         if (startOn) {
@@ -135,13 +140,14 @@ public class street {
     /**
      * Here is a simple if-else block, but this is the center of the game. This is called after every enemy shot.
      * It calls {@code enemy} method until the player reaches the 100 points.
-     * @throws IOException
+     * @throws IOException because of {@code win} method
      */
     private void scoreCheck() throws IOException {
         if (score < 100) {
             enemy();
         } else {
             win();
+            log.info("Game ended");
         }
     }
 
@@ -164,21 +170,23 @@ public class street {
             thisEnemy = enemies[whichEnemy];
             terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/street/terrorist.png").toExternalForm()));
             thisEnemy.setVisible(true);
+            log.info("{} spawned",terrorist[whichEnemy].getId());
         }
     }
     private void random() {
         lastEnemy = whichEnemy;
         Random random = new Random();
         whichEnemy = random.nextInt(7);
+        log.info("the random number is {}", whichEnemy);
     }
 
     /**
      * This is the longest method so it makes a lot of things. First it deletes the score field and the exit button
      * and makes the result field visible. Then it prints things (the name, the time, the kills, the missed
      * shots, and also the score) on it. At he end it calls method {@code storeScore}.
-     * @throws IOException
+     * @throws IOException by storeScore's FileWriter
      */
-    private void win() throws IOException {
+    private void win() throws IOException{
         ingameScore.setVisible(false);
         exitB.setVisible(false);
         results.setVisible(true);
@@ -214,7 +222,7 @@ public class street {
      * between each data of course keeping the old data too. [The text file could be called only this way. If it's
      * being set with classloader the FileWriter won't found it, and there will be an error. This error does not
      * occur only if the file is in the root directory, this way i put it there.]
-     * @throws IOException
+     * @throws IOException by FileWriter
      */
     private void storeScore() throws IOException {
         FileWriter fw = new FileWriter("scores.txt",true);
@@ -226,6 +234,7 @@ public class street {
             writer.write(" "+killed);
             writer.newLine();
         writer.close();
+        log.info("storing data");
     }
 
     /**
@@ -234,7 +243,7 @@ public class street {
      * right and deletes the enemy. It also calls the {@code shot} method, which plays the sound of a shot.
      * At the end calls the {@code scoreCheck}.
      * @param event Click on hitbox/button
-     * @throws IOException
+     * @throws IOException because of {@code scoreCheck} method
      */
     public void body(ActionEvent event) throws IOException {
         shot();
@@ -243,12 +252,13 @@ public class street {
         scoreT.setText("Score: " + score);
         thisEnemy.setVisible(false);
         scoreCheck();
+        log.info("body shot");
     }
 
     /**
      * This works like the {@code body} but it is attached to a button on the head and it gives 2 points.
      * @param event Click on hitbox/button
-     * @throws IOException
+     * @throws IOException because of {@code scoreCheck} method
      */
     public void head(ActionEvent event) throws IOException {
         shot();
@@ -257,6 +267,7 @@ public class street {
         scoreT.setText("Score: " + score);
         thisEnemy.setVisible(false);
         scoreCheck();
+        log.info("head shot");
     }
 
     /**
@@ -267,6 +278,7 @@ public class street {
     public void missClick(ActionEvent event) {
         ++missedShots;
         shot();
+        log.info("missed shot");
     }
 
     /**
@@ -282,8 +294,8 @@ public class street {
     /**
      * The {@code exit} is connected to 2 buttons, one is the "Exit" at the lower right corner and the other one is
      * when the game ends, called "Menu". It just loads the Menu scene and stops the timer.
-     * @param event Click on button (Exit & Menu)
-     * @throws IOException
+     * @param event Click on button (Exit and Menu)
+     * @throws IOException by FXMLLoader
      */
     public void exit(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -291,6 +303,7 @@ public class street {
         stage.setScene(new Scene(root));
         stage.show();
         a.pause();
+        log.info("Going to Menu..");
     }
 }
 

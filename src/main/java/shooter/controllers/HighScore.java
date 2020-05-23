@@ -13,6 +13,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
 
+@Slf4j
 public class HighScore {
 
     /**
@@ -27,6 +29,7 @@ public class HighScore {
      * I know this is not the best looking code, but with this part i spent more then 24 hrs to make it work
      * and after multiple failed attempts and because i have a deadline i'll stick to this code. Also i have
      * to say that this works fine, it does what it needs to and i like how it shows in game.
+     * Created based on this site: https://javaconceptoftheday.com/how-to-sort-a-text-file-in-java/
      */
 
     @FXML
@@ -44,7 +47,7 @@ public class HighScore {
      * {@code sortScores} which sorts the scores, and {@code setTextArea} where it loads the data in the TextArea if
      * there is data in the file (technically there is always is a newline in in bat that is not what we need).
      * And finally it starts the background music.
-     * @throws IOException
+     * @throws IOException by sortScores's FileWriter and FileReader
      */
     @FXML
     public void initialize() throws IOException {
@@ -92,7 +95,7 @@ public class HighScore {
      * {@code setTextArea} or not.
      * Then it sorts the data, the arrays and writes everything into the sorted file. And at the end closes the
      * writer and the reader.
-     * @throws IOException
+     * @throws IOException by FileReader and FileWriter
      */
     public void sortScores() throws IOException{
         FileReader fr = new FileReader("scores.txt");
@@ -110,6 +113,7 @@ public class HighScore {
             resultArrayList.add(new result(name,score,time,misses,kills));
             currentLine = reader.readLine();
             isThereData = true;
+            log.info("Breaking down one line into arrays");
         }
         resultArrayList.sort(new scoreCompare());
         FileWriter fw = new FileWriter("scoresSorted.txt");
@@ -120,9 +124,12 @@ public class HighScore {
             writer.write(result.time+checkMisses(result.misses));
             writer.write(result.misses+checkKills(result.kills));
             writer.write(result.kills+"\n");
+            log.info("Writing one sorted line");
         }
         reader.close();
+        log.info("BufferReader closed");
         writer.close();
+        log.info("BufferWriter closed");
     }
 
     /**
@@ -181,7 +188,7 @@ public class HighScore {
         File file = new File("scoresSorted.txt");
         int c = 1;
         try (Scanner input = new Scanner(file)) {
-            while (input.hasNextLine() || c < 11 ) {
+            while (input.hasNextLine() && c < 11 ) {
                 textArea.appendText(input.nextLine());
                 textArea.appendText("\n");
                 ++c;
@@ -189,6 +196,7 @@ public class HighScore {
                     c = 11;
                 }
             }
+            log.info("Setting Text Area");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -197,7 +205,7 @@ public class HighScore {
     /**
      * This is the same as used before, it loads the menu. It is connected to the "Menu" button.
      * @param event Click on button
-     * @throws IOException
+     * @throws IOException by FXMLLoader.load
      */
     public void menuGoGo(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -205,6 +213,7 @@ public class HighScore {
         stage.setScene(new Scene(root));
         stage.show();
         a.pause();
+        log.info("Going back to Menu from the High Score");
     }
 
     /**
@@ -222,5 +231,6 @@ public class HighScore {
                 a.seek(Duration.ZERO);
             }
         });
+        log.info("Playing music in HighScore");
     }
 }

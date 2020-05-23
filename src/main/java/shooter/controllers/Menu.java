@@ -13,10 +13,11 @@ import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-
+@Slf4j
 public class Menu {
 
     @FXML
@@ -52,14 +53,16 @@ public class Menu {
                 a.seek(Duration.ZERO);
             }
         });
+        log.info("Starting music in menu");
     }
 
     /**
      * This method is connected to the play button, when that pressed it loads the play scene.
      * @param event Click on button.
-     * @throws IOException
+     * @throws IOException by FXMLLoader
      */
     public void goPlay(ActionEvent event) throws IOException {
+        log.info("Changing scene to play Scene");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/playFXML.fxml"));
         stage.setScene(new Scene(root));
@@ -70,9 +73,10 @@ public class Menu {
     /**
      * This method is connected to HighScore button, when that pressed it loads the HighScore scene.
      * @param event Click on button.
-     * @throws IOException
+     * @throws IOException by FXMLLoader
      */
     public void highscore(ActionEvent event) throws IOException{
+        log.info("Changing scene to high score Scene");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/highscore.fxml"));
         stage.setScene(new Scene(root));
@@ -85,6 +89,7 @@ public class Menu {
      * @param event Click on button.
      */
     public void exitApp(ActionEvent event) {
+        log.info("Exiting app...");
         Platform.exit();
     }
 

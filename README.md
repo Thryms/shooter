@@ -11,4 +11,14 @@ The point system works like this:
 3. (Arm counts as miss because that is non lethal.)
 
 I think this all you need to know, Good Luck, Have Fun!
+
+Thoughts about the project
+==========================
+
+I myself actually enjoyed this project a lot. Mostly because I want to work in game 
+development in the future, so it came handy. Most likely I won't work with Java in game
+development, but some kind of "developer mindset" was build in me at least. 
+
+Also based on the feedback on the game from friends and family the game is good, so I 
+guess I reached my goal. 
     

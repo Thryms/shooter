@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -23,13 +24,14 @@ import java.io.IOException;
 public class Menu {
 
     @FXML
-    private ImageView menuBcg,playBcg,highscoreBcg,exitBcg,afghanButton,syrianButton;
+    private ImageView menuBcg,playBcg,highscoreBcg,exitBcg,afghanButton,syrianButton,muteIV;
     @FXML
     private VBox buttonsVBox;
     @FXML
     private Pane maps;
 
     MediaPlayer a;
+    private boolean music=true;
 
     /**
      * In the {@code initialize} we load the images of the buttons and the background. Then we call the {@code music}
@@ -41,6 +43,7 @@ public class Menu {
         playBcg.setImage(new Image(getClass().getResource("/images/menuS/playBcg.png").toExternalForm()));
         highscoreBcg.setImage(new Image(getClass().getResource("/images/menuS/highscoreBcg.png").toExternalForm()));
         exitBcg.setImage(new Image(getClass().getResource("/images/menuS/exitBcg.png").toExternalForm()));
+        muteIV.setImage(new Image(getClass().getResource("/images/menuS/muteBcg.png").toExternalForm()));
         music();
     }
 
@@ -66,7 +69,6 @@ public class Menu {
      * This method is connected to the play button, when pressed sets the VBox invisible which the buttons are in
      * and loads the map choosing buttons and images.
      * @param event Click on button.
-     * @throws IOException by FXMLLoader
      */
     public void Play(ActionEvent event) {
         log.info("Getting map choosing buttons on");
@@ -115,6 +117,25 @@ public class Menu {
     public void exitApp(ActionEvent event) {
         log.info("Exiting app...");
         Platform.exit();
+    }
+
+    /**
+     * This is a simple method connected to the Mute button. It mutes or unmutes the music and sets the image
+     * according to that.
+     * @param event Click on mute (aka muteB) button
+     */
+    public void mute(ActionEvent event){
+        if (music){
+            log.info("Music muted");
+            music = false;
+            a.pause();
+            muteIV.setImage(new Image(getClass().getResource("/images/menuS/unmuteBcg.png").toExternalForm()));
+        } else {
+            log.info("Music unmuted");
+            music = true;
+            a.play();
+            muteIV.setImage(new Image(getClass().getResource("/images/menuS/muteBcg.png").toExternalForm()));
+        }
     }
 
 }

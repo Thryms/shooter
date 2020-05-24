@@ -33,16 +33,14 @@ public class HighScore {
      */
 
     @FXML
-    private ImageView hsBcg;
+    private ImageView hsBcg,muteIV,loadIV,menuButtonIV;
     @FXML
     private TextArea textArea;
-    @FXML
-    private ImageView menuButtonIV;
     @FXML
     private ChoiceBox<String> choiceBox;
 
     private  MediaPlayer a;
-    private boolean isThereData = false;
+    private boolean isThereData = false, music=true;
 
     /**
      * In the {@code initialize} it loads the background image also the image of the button. Also calls
@@ -55,6 +53,8 @@ public class HighScore {
     public void initialize() throws IOException {
         hsBcg.setImage(new Image(getClass().getResource("/images/menuS/menuBcg.png").toExternalForm()));
         menuButtonIV.setImage(new Image(getClass().getResource("/images/menuS/menuButtonBcg.png").toExternalForm()));
+        muteIV.setImage(new Image(getClass().getResource("/images/menuS/muteBcg.png").toExternalForm()));
+        loadIV.setImage(new Image(getClass().getResource("/images/menuS/loadBcg.png").toExternalForm()));
         music();
         choiceBox.getItems().addAll("Afghan","Syrian");
     }
@@ -80,7 +80,6 @@ public class HighScore {
                     setTextArea("scoresAfghanSorted.txt");
                 }
         }
-
     }
     /**
      * This class is for initializing the result which it will use later to sort the scores.
@@ -119,7 +118,9 @@ public class HighScore {
      * writer and the reader.
      * @param map This is the file where the unsorted scores are.
      * @param sortedmap This is the file where the sorted scores being put.
-     * @throws IOException
+     * @throws IOException by FileWriter/Reader or BufferReader/Writer, if the named file exists but is a directory
+     * rather than a regular file, does not exist but cannot be created, or cannot be opened for any other reason.
+     *  BufferedWriter- If an I/O error occurs.
      */
     public void sortScores(String map,String sortedmap) throws IOException{
         FileReader fr = new FileReader(map);
@@ -261,5 +262,24 @@ public class HighScore {
             }
         });
         log.info("Playing music in HighScore");
+    }
+
+    /**
+     * This is a simple method connected to the Mute button. It mutes or unmutes the music and sets the image
+     * according to that.
+     * @param event Click on mute (aka muteB) button
+     */
+    public void mute(ActionEvent event){
+        if (music){
+            log.info("Music muted");
+            music = false;
+            a.pause();
+            muteIV.setImage(new Image(getClass().getResource("/images/menuS/unmuteBcg.png").toExternalForm()));
+        } else {
+            log.info("Music unmuted");
+            music = true;
+            a.play();
+            muteIV.setImage(new Image(getClass().getResource("/images/menuS/muteBcg.png").toExternalForm()));
+        }
     }
 }

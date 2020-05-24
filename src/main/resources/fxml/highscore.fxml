@@ -12,8 +12,8 @@
    <children>
       <ImageView fx:id="hsBcg" fitHeight="819.0" fitWidth="1228.0" pickOnBounds="true" preserveRatio="true" />
       <TextArea fx:id="textArea" editable="false" layoutX="152.0" layoutY="282.0" prefHeight="454.0" prefWidth="924.0" promptText="AAA     0000     00:00     0       0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em; -fx-background-color: #8a9a5b;" />
-      <ImageView fx:id="menuButtonIV" fitHeight="54.0" fitWidth="177.0" layoutX="989.0" layoutY="751.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="menuB" layoutX="988.0" layoutY="751.0" mnemonicParsing="false" onAction="#menuGoGo" opacity="0.0" prefHeight="54.0" prefWidth="177.0" text="Menu" />
+      <ImageView fx:id="menuButtonIV" fitHeight="54.0" fitWidth="177.0" layoutX="989.0" layoutY="744.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="menuB" layoutX="988.0" layoutY="744.0" mnemonicParsing="false" onAction="#menuGoGo" opacity="0.0" prefHeight="54.0" prefWidth="177.0" text="Menu" />
       <Text fill="WHITE" layoutX="153.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: FreeMono, monospace; -fx-font-size: 3em;" text="Name    Score     Time   Misses   Kills" wrappingWidth="924.0" />
       <Pane layoutX="81.0" layoutY="321.0">
          <children>
@@ -30,6 +30,9 @@
          </children>
       </Pane>
       <ChoiceBox fx:id="choiceBox" layoutX="524.0" layoutY="751.0" prefHeight="39.0" prefWidth="183.0" />
-      <Button fx:id="choiceButton" layoutX="422.0" layoutY="746.0" mnemonicParsing="false" onAction="#getChoice" prefHeight="39.0" prefWidth="102.0" style="-fx-font-size: 2.5em; -fx-background-color: #8a9a5b;" text="Load" />
+      <ImageView fx:id="loadIV" fitHeight="50.0" fitWidth="100.0" layoutX="411.0" layoutY="747.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="choiceButton" layoutX="411.0" layoutY="746.0" mnemonicParsing="false" onAction="#getChoice" opacity="0.0" prefHeight="40.0" prefWidth="100.0" style="-fx-font-size: 2.5em; -fx-background-color: #8a9a5b;" text="Load" />
+      <ImageView fx:id="muteIV" fitHeight="54.0" fitWidth="177.0" layoutX="64.0" layoutY="745.0" pickOnBounds="true" />
+      <Button fx:id="muteB" layoutX="64.0" layoutY="745.0" mnemonicParsing="false" onAction="#mute" opacity="0.0" prefHeight="54.0" prefWidth="177.0" style="-fx-background-color: #8a9a5b; -fx-font-size: 2em; -fx-border-radius: 10em;" text="Mute" textFill="#f1ff2d" />
    </children>
 </AnchorPane>

@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import shooter.gameplayMethods;
 
 import java.io.*;
 import java.util.Random;
@@ -33,23 +34,22 @@ public class syria {
     @FXML
     private Pane one, two, three, four, five, six, seven, nameEnter, results, ingameScore;
     @FXML
-    private Text scoreT, killedT, missedT, finalTimeT, goodJobT, nameT, finalScoreT, finalTimeSecT;
+    private Text scoreT, killedT, missedT, finalTimeT, goodJobT, finalScoreT, finalTimeSecT;
     @FXML
     private Label timeL;
     @FXML
     private TextField nameTF;
     @FXML
-    private Button exitB;
+    private Button exitB,muteB;
     @FXML
     private ImageView syriaBcg,enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven;
 
-    private boolean startOn = true;
-    private int whichEnemy, lastEnemy, missedShots;
+    private int whichEnemy,missedShots,finalScore;
     private int killed = 0, score = 0;
     private Pane thisEnemy;
     private long start, millisElapsed;
     private MediaPlayer a;
-    private double finScore;
+    private boolean music=true;
 
     /**
      * Here we load the background, also call the {@code music} method.
@@ -61,39 +61,12 @@ public class syria {
     }
 
     /**
-     * This is connected to the play button, when pressed it calls two methods.
-     * @param event Click on button.
-     * @throws IOException because of {@code deleteStart} method
-     */
-    public void start(ActionEvent event) throws IOException {
-        getName(nameTF);
-        deleteStart();
-    }
-
-    /**
-     * This method called by {@code start} checks the field where the player puts his/her name, if the name
-     * is 3 character long {@code nameT} will be that in uppercase. If the given name is longer the 3 characters
-     * then it will cut the first 3 characters and store stat. Else the basic name is "AAA".
-     */
-    public String getName(TextField tf) {
-        if (tf.getText() != null && !tf.getText().isEmpty() && tf.getText().length() == 3) {
-            nameT.setText((tf.getText().toUpperCase()));
-        } else if (tf.getText() != null && !tf.getText().isEmpty() && tf.getText().length() > 3){
-            nameT.setText(tf.getText().toUpperCase().substring(0,3));
-        } else {
-            nameT.setText("AAA");
-        }
-        log.info("The player name is set to {}", nameT.getText());
-        return nameT.getText();
-    }
-
-    /**
      * This method loads and starts the music at 60% volume, also making sure if the file ends it starts over.
      * [Also the MediaPlayer has to be declared in the class outside of this method else the
      * music will stop after few seconds!]
      */
     private void music() {
-        Media med = new Media(getClass().getResource("/sounds/streetMusic.mp3").toExternalForm()); //TODO
+        Media med = new Media(getClass().getResource("/sounds/syriaMusic.mp3").toExternalForm());
         a = new MediaPlayer(med);
         a.setVolume(0.6);
         a.setAutoPlay(true);
@@ -102,32 +75,27 @@ public class syria {
                 a.seek(Duration.ZERO);
             }
         });
-        log.info("Menu music started");
+        log.info("Syria music started");
     }
 
     /**
-     * This deletes the little window where the user puts its name, it is called by the {@code start} method. It is an
-     * if-else because it worked the best for me. In the if it deletes the window, and calls itself, where it goes
-     * in the else, where it sets the score text, also starting the timer under it (shown on the side of the window)
-     * and calls {@code scoreCheck}.
+     * This is connected to the play button, when pressed it vanishes the little starting box, setting the scoreT
+     * to it's base value, calling {@code scoreCheck} method and starting the timer.
+     * @param event Click on button.
      * @throws IOException because of {@code scoreCheck} method
      */
-    public void deleteStart() throws IOException {
-        if (startOn) {
-            nameEnter.setVisible(false);
-            startOn = false;
-            deleteStart();
-        } else {
-            scoreT.setText("Score: " + score);
-            scoreCheck();
-            timer();
-        }
+    public void start(ActionEvent event) throws IOException {
+        nameEnter.setVisible(false);
+        scoreT.setText("Score: " + score);
+        scoreCheck();
+        timer();
     }
 
     /**
      * This timer counts the time for the program, it runs until the player wins.
      */
     private void timer() {
+        log.info("timer started");
         start = System.currentTimeMillis();
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             millisElapsed = System.currentTimeMillis() - start;
@@ -152,43 +120,43 @@ public class syria {
     }
 
     /**
-     * Here the program spawns the enemies on the map. Firs we call {@code random} where we get a random number between
-     * 0 an 7 (7 not included). The it checks if the random number is different than the last one, this way the enemy
-     * will spawn in different locations every time. If the random number (aka {@code whichEnemy}) is the same as the
-     * {@code lastEnemy} the it calls itself, this way getting a new random number. It goes until the new number won't
-     * be the same as the last.
-     * In the else it makes an array of the Panes which represent the enemies and also an array of the
-     * {@code ImageView}s. Then it loads the image on the {@code ImageView} of the chosen Pane and makes that active.
+     * Here the program first creates a random number ({@code random}) through that it will spawn an enemy. Then based
+     * on what was the number it spawns an enemy by calling that pane with the number generated.
      */
     public void enemy() {
         random();
-        if (whichEnemy == lastEnemy) {
-            enemy();
+        Pane[] enemies = {one, two, three, four, five, six, seven};
+        ImageView[] terrorist = {enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven};
+        thisEnemy = enemies[whichEnemy];
+        if(whichEnemy==6) {
+            enemySeven.setImage(new Image(getClass().getResource("/images/syria/terroristWalk.png").toExternalForm()));
+        } else if (whichEnemy==0 || whichEnemy==1) {
+            terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/syria/terroristStanding.png").toExternalForm()));
         } else {
-            Pane[] enemies = {one, two, three, four, five, six, seven};
-            ImageView[] terrorist = {enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven};
-            thisEnemy = enemies[whichEnemy];
-            if(whichEnemy==6) {
-                enemySeven.setImage(new Image(getClass().getResource("/images/syria/terroristWalk.png").toExternalForm()));
-            } else if (whichEnemy==0 || whichEnemy==1) {
-                terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/syria/terroristStanding.png").toExternalForm()));
-            } else {
-                terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/syria/terroristPistol.png").toExternalForm()));
-            }
-            thisEnemy.setVisible(true);
-            log.info("{} spawned",terrorist[whichEnemy].getId());
+            terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/syria/terroristPistol.png").toExternalForm()));
         }
-    }
-    public  void random() {
-        lastEnemy = whichEnemy;
-        Random random = new Random();
-        whichEnemy = random.nextInt(7);
-        log.info("the random number is {}", whichEnemy);
+        thisEnemy.setVisible(true);
+        log.info("{} spawned",terrorist[whichEnemy].getId());
     }
 
     /**
-     * This is the longest method so it makes a lot of things. First it deletes the score field and the exit button
-     * and makes the result field visible. Then it prints things (the name, the time, the kills, the missed
+     * In this method it generates the random number for {@code enemy}. It makes sure that the game does not spawn
+     * the same enemy twice in a row, by a simple if where it checks if the last enemy is the same as the new.
+     * For the random number it uses {@code random.nextInt} the bound is 7 it means the number will be 0-6.
+     */
+    public void random() {
+        int lastEnemy = whichEnemy;
+        Random random = new Random();
+        whichEnemy = random.nextInt(7);
+        log.info("the random number is {}", whichEnemy);
+        if (whichEnemy == lastEnemy){
+            random();
+        }
+    }
+
+    /**
+     * First it deletes the score field and the exit button and makes the result field visible.
+     * Then it prints things (the name, the time, the kills, the missed
      * shots, and also the score) on it. At he end it calls method {@code storeScore}.
      * @throws IOException by storeScore's FileWriter
      */
@@ -196,31 +164,14 @@ public class syria {
         ingameScore.setVisible(false);
         exitB.setVisible(false);
         results.setVisible(true);
-        goodJobT.setText("Good job " + getName(nameTF) + "!");
+        goodJobT.setText("Good job " + gameplayMethods.getName(nameTF) + "!");
         finalTimeT.setText(DurationFormatUtils.formatDuration(millisElapsed, "mm:ss"));
         finalTimeSecT.setText(DurationFormatUtils.formatDuration(millisElapsed, "ss"));
         killedT.setText("and killed " + killed + " terrorists,");
-        if (missedShots == 0) {
-            missedT.setText("and you missed 0 shots. Nice!");
-        } else if (missedShots < 10) {
-            missedT.setText("and missed only " + missedShots + " shots.");
-        } else {
-            missedT.setText("but missed " + missedShots + " shots.");
-        }
-        finalScoreT.setText("Your calculated score is: " + calculateScore());
+        missedT.setText(gameplayMethods.missedText(missedShots));
+        finalScore = gameplayMethods.calculateScore(finalTimeSecT,score,killed,missedShots);
+        finalScoreT.setText("Your calculated score is: " + finalScore);
         storeScore();
-    }
-
-    /**
-     * Here it calculates a score for the player this way it is easier for them to now measure performance.
-     * @return The calculated score as Integer.
-     */
-    public int calculateScore() {
-        int finalTimeSecInt = Integer.parseInt(finalTimeSecT.getText());
-        double scoreDub = score;
-        double kmf = killed + missedShots + finalTimeSecInt;
-        finScore = (scoreDub / kmf) * 1000;
-        return (int)finScore;
     }
 
     /**
@@ -233,16 +184,16 @@ public class syria {
      * BufferedWriter- If an I/O error occurs.
      */
     private void storeScore() throws IOException {
+        log.info("storing data");
         FileWriter fw = new FileWriter("scoresSyria.txt",true);
         BufferedWriter writer = new BufferedWriter(fw);
-        writer.write(nameT.getText());
-        writer.write(" "+(int)finScore);
+        writer.write(gameplayMethods.getName(nameTF));
+        writer.write(" "+finalScore);
         writer.write(" "+finalTimeT.getText());
         writer.write(" "+missedShots);
         writer.write(" "+killed);
         writer.newLine();
         writer.close();
-        log.info("storing data");
     }
 
     /**
@@ -254,13 +205,13 @@ public class syria {
      * @throws IOException because of {@code scoreCheck} method
      */
     public void body(ActionEvent event) throws IOException {
+        log.info("body shot");
         shot();
         ++score;
         ++killed;
         scoreT.setText("Score: " + score);
         thisEnemy.setVisible(false);
         scoreCheck();
-        log.info("body shot");
     }
 
     /**
@@ -269,13 +220,13 @@ public class syria {
      * @throws IOException because of {@code scoreCheck} method
      */
     public void head(ActionEvent event) throws IOException {
+        log.info("head shot");
         shot();
         score = score + 2;
         ++killed;
         scoreT.setText("Score: " + score);
         thisEnemy.setVisible(false);
         scoreCheck();
-        log.info("head shot");
     }
 
     /**
@@ -284,9 +235,9 @@ public class syria {
      * @param event Click on places where is no enemy or other button/pane.
      */
     public void missClick(ActionEvent event) {
+        log.info("missed shot");
         ++missedShots;
         shot();
-        log.info("missed shot");
     }
 
     /**
@@ -306,12 +257,29 @@ public class syria {
      * @throws IOException by FXMLLoader
      */
     public void toMenu(ActionEvent event) throws IOException {
+        log.info("Going to Menu..");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFXML.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
         a.pause();
-        log.info("Going to Menu..");
+    }
+
+    /**
+     * This is a simple method connected to the Mute button. It mutes or unmutes the music.
+     * @param event Click on mute (aka muteB) button
+     */
+    public void mute(ActionEvent event){
+        if (music){
+            log.info("Music muted");
+            music = false;
+            a.pause();
+            muteB.setText("Unmute");
+        } else {
+            log.info("Music unmuted");
+            music = true;
+            a.play();
+            muteB.setText("Mute");
+        }
     }
 }
-

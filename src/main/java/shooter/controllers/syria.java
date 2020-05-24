@@ -28,7 +28,7 @@ import java.io.*;
 import java.util.Random;
 
 @Slf4j
-public class street {
+public class syria {
 
     @FXML
     private Pane one, two, three, four, five, six, seven, nameEnter, results, ingameScore;
@@ -41,7 +41,7 @@ public class street {
     @FXML
     private Button exitB;
     @FXML
-    private ImageView streetBcg,enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven;
+    private ImageView syriaBcg,enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven;
 
     private boolean startOn = true;
     private int whichEnemy, lastEnemy, missedShots;
@@ -56,7 +56,7 @@ public class street {
      */
     @FXML
     public void initialize(){
-        streetBcg.setImage(new Image(getClass().getResource("/images/street/bcgStreet.png").toExternalForm()));;
+        syriaBcg.setImage(new Image(getClass().getResource("/images/syria/syria.png").toExternalForm()));
         music();
     }
 
@@ -93,7 +93,7 @@ public class street {
      * music will stop after few seconds!]
      */
     private void music() {
-        Media med = new Media(getClass().getResource("/sounds/streetMusic.mp3").toExternalForm());
+        Media med = new Media(getClass().getResource("/sounds/streetMusic.mp3").toExternalForm()); //TODO
         a = new MediaPlayer(med);
         a.setVolume(0.6);
         a.setAutoPlay(true);
@@ -168,7 +168,13 @@ public class street {
             Pane[] enemies = {one, two, three, four, five, six, seven};
             ImageView[] terrorist = {enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven};
             thisEnemy = enemies[whichEnemy];
-            terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/street/terrorist.png").toExternalForm()));
+            if(whichEnemy==6) {
+                enemySeven.setImage(new Image(getClass().getResource("/images/syria/terroristWalk.png").toExternalForm()));
+            } else if (whichEnemy==0 || whichEnemy==1) {
+                terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/syria/terroristStanding.png").toExternalForm()));
+            } else {
+                terrorist[whichEnemy].setImage(new Image(getClass().getResource("/images/syria/terroristPistol.png").toExternalForm()));
+            }
             thisEnemy.setVisible(true);
             log.info("{} spawned",terrorist[whichEnemy].getId());
         }
@@ -190,7 +196,6 @@ public class street {
         ingameScore.setVisible(false);
         exitB.setVisible(false);
         results.setVisible(true);
-        //goodJobT.setText("Good job " + nameT.getText() + "!");
         goodJobT.setText("Good job " + getName(nameTF) + "!");
         finalTimeT.setText(DurationFormatUtils.formatDuration(millisElapsed, "mm:ss"));
         finalTimeSecT.setText(DurationFormatUtils.formatDuration(millisElapsed, "ss"));
@@ -228,14 +233,14 @@ public class street {
      * BufferedWriter- If an I/O error occurs.
      */
     private void storeScore() throws IOException {
-        FileWriter fw = new FileWriter("scoresAfghan.txt",true);
+        FileWriter fw = new FileWriter("scoresSyria.txt",true);
         BufferedWriter writer = new BufferedWriter(fw);
-            writer.write(nameT.getText());
-            writer.write(" "+(int)finScore);
-            writer.write(" "+finalTimeT.getText());
-            writer.write(" "+missedShots);
-            writer.write(" "+killed);
-            writer.newLine();
+        writer.write(nameT.getText());
+        writer.write(" "+(int)finScore);
+        writer.write(" "+finalTimeT.getText());
+        writer.write(" "+missedShots);
+        writer.write(" "+killed);
+        writer.newLine();
         writer.close();
         log.info("storing data");
     }

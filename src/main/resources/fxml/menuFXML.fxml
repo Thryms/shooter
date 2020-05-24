@@ -3,18 +3,19 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="819.0" prefWidth="1228.0" style="-fx-background-color: #999900;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shooter.controllers.Menu">
    <children>
       <ImageView fx:id="menuBcg" fitHeight="819.0" fitWidth="1228.0" pickOnBounds="true" preserveRatio="true" />
-      <VBox layoutX="363.0" layoutY="244.0" prefHeight="515.0" prefWidth="502.0" spacing="30.0" AnchorPane.bottomAnchor="60.0">
+      <VBox fx:id="buttonsVBox" layoutX="363.0" layoutY="244.0" prefHeight="515.0" prefWidth="502.0" spacing="30.0" AnchorPane.bottomAnchor="60.0">
          <children>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
                   <ImageView fx:id="playBcg" fitHeight="150.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button mnemonicParsing="false" onAction="#goPlay" opacity="0.0" prefHeight="150.0" prefWidth="500.0" style="-fx-background-color: #add8e6; -fx-font-size: 5em; -fx-border-color: #00ff00; -fx-border-width: 0.5em;" text="Play" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#Play" opacity="0.0" prefHeight="150.0" prefWidth="500.0" style="-fx-background-color: #add8e6; -fx-font-size: 5em; -fx-border-color: #00ff00; -fx-border-width: 0.5em;" text="Play" textAlignment="CENTER" />
                </children>
             </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0">
@@ -31,5 +32,13 @@
             </StackPane>
          </children>
       </VBox>
+      <Pane fx:id="maps" layoutX="164.0" layoutY="232.0" prefHeight="540.0" prefWidth="900.0" visible="false">
+         <children>
+            <ImageView fx:id="afghanButton" fitHeight="540.0" fitWidth="440.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="syrianButton" fitHeight="540.0" fitWidth="440.0" layoutX="460.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="afghanB" mnemonicParsing="false" onAction="#goAfghanistan" opacity="0.0" prefHeight="540.0" prefWidth="440.0" text="afghan" />
+            <Button fx:id="syrianB" layoutX="460.0" mnemonicParsing="false" onAction="#goSyria" opacity="0.0" prefHeight="540.0" prefWidth="440.0" text="syria" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

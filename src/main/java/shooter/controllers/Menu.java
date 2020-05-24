@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import javafx.scene.media.MediaPlayer;
@@ -21,7 +23,11 @@ import java.io.IOException;
 public class Menu {
 
     @FXML
-    private ImageView menuBcg,playBcg,highscoreBcg,exitBcg;
+    private ImageView menuBcg,playBcg,highscoreBcg,exitBcg,afghanButton,syrianButton;
+    @FXML
+    private VBox buttonsVBox;
+    @FXML
+    private Pane maps;
 
     MediaPlayer a;
 
@@ -57,14 +63,32 @@ public class Menu {
     }
 
     /**
-     * This method is connected to the play button, when that pressed it loads the play scene.
+     * This method is connected to the play button, when pressed sets the VBox invisible which the buttons are in
+     * and loads the map choosing buttons and images.
      * @param event Click on button.
      * @throws IOException by FXMLLoader
      */
-    public void goPlay(ActionEvent event) throws IOException {
-        log.info("Changing scene to play Scene");
+    public void Play(ActionEvent event) {
+        log.info("Getting map choosing buttons on");
+        buttonsVBox.setVisible(false);
+        afghanButton.setImage(new Image(getClass().getResource("/images/street/afghanButton.png").toExternalForm()));
+        syrianButton.setImage(new Image(getClass().getResource("/images/syria/syriaButton.png").toExternalForm()));
+        maps.setVisible(true);
+    }
+
+    public void goAfghanistan(ActionEvent event) throws IOException{
+        log.info("Changing scene to Afghanistan");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/playFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/playAfghanFXML.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
+        a.pause();
+    }
+
+    public void goSyria(ActionEvent event) throws IOException{
+        log.info("Changing scene to play Syria");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/playSyria.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
         a.pause();

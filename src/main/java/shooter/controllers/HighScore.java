@@ -38,6 +38,8 @@ public class HighScore {
     private TextArea textArea;
     @FXML
     private ImageView menuButtonIV;
+    @FXML
+    private ChoiceBox<String> choiceBox;
 
     private  MediaPlayer a;
     private boolean isThereData = false;
@@ -53,17 +55,37 @@ public class HighScore {
     public void initialize() throws IOException {
         hsBcg.setImage(new Image(getClass().getResource("/images/menuS/menuBcg.png").toExternalForm()));
         menuButtonIV.setImage(new Image(getClass().getResource("/images/menuS/menuButtonBcg.png").toExternalForm()));
-        sortScores();
-        if(isThereData) {
-            setTextArea();
-        }
         music();
+        choiceBox.getItems().addAll("Afghan","Syrian");
     }
 
     /**
+     * Here it gets the value of the choicebox, and according to what did the user chose ot loads the scores of
+     * that map and calls the sorting and writing methods with the correct strings.
+     * @param event Click on button
+     * @throws IOException If setTextArea() throws an exception
+     */
+    public void getChoice(ActionEvent event) throws IOException{
+        String whichMap = choiceBox.getValue();
+        if (whichMap != null && whichMap.equals("Syrian")) {
+                sortScores("scoresSyria.txt", "scoresSyriaSorted.txt");
+                if(isThereData){
+                    textArea.clear();
+                    setTextArea("scoresSyriaSorted.txt");
+                }
+        } else if (whichMap != null && whichMap.equals("Afghan")){
+                sortScores("scoresAfghan.txt","scoresAfghanSorted.txt");
+                if(isThereData){
+                    textArea.clear();
+                    setTextArea("scoresAfghanSorted.txt");
+                }
+        }
+
+    }
+    /**
      * This class is for initializing the result which it will use later to sort the scores.
      */
-    class result{
+    static class result{
         int score,misses,kills;
         String name,time;
         public result( String name, int score, String time, int misses, int kills){
@@ -78,7 +100,7 @@ public class HighScore {
     /**
      * In here it sets the {@code compare} so it sorts by the scores descending.
      */
-    class scoreCompare implements Comparator<result>{
+    static class scoreCompare implements Comparator<result>{
         @Override
         public int compare(result s1, result s2){
             return s2.score - s1.score;
@@ -95,10 +117,12 @@ public class HighScore {
      * {@code setTextArea} or not.
      * Then it sorts the data, the arrays and writes everything into the sorted file. And at the end closes the
      * writer and the reader.
-     * @throws IOException by FileReader and FileWriter
+     * @param map This is the file where the unsorted scores are.
+     * @param sortedmap This is the file where the sorted scores being put.
+     * @throws IOException
      */
-    public void sortScores() throws IOException{
-        FileReader fr = new FileReader("scores.txt");
+    public void sortScores(String map,String sortedmap) throws IOException{
+        FileReader fr = new FileReader(map);
         BufferedReader reader = new BufferedReader(fr);
         ArrayList<result> resultArrayList = new ArrayList<result>();
         String currentLine = reader.readLine();
@@ -110,13 +134,13 @@ public class HighScore {
             String time = resultDetail[2];
             int misses = Integer.parseInt(resultDetail[3]);
             int kills = Integer.parseInt(resultDetail[4]);
-            resultArrayList.add(new result(name,score,time,misses,kills));
+            resultArrayList.add(new result(name, score, time, misses, kills));
             currentLine = reader.readLine();
             isThereData = true;
             log.info("Breaking down one line into arrays");
         }
         resultArrayList.sort(new scoreCompare());
-        FileWriter fw = new FileWriter("scoresSorted.txt");
+        FileWriter fw = new FileWriter(sortedmap);
         BufferedWriter writer = new BufferedWriter(fw);
         for (result result : resultArrayList){
             writer.write(result.name+checkScore(result.score));
@@ -130,6 +154,10 @@ public class HighScore {
         log.info("BufferReader closed");
         writer.close();
         log.info("BufferWriter closed");
+    }
+
+    public void toArray(String map){
+
     }
 
     /**
@@ -183,9 +211,10 @@ public class HighScore {
     /**
      * Here it simply sets the text of the TextArea. It goes thru the sorted file and writes each line in the
      * TextArea until the file ends or it wrote 10 lines because we need only the 10 best results.
+     * @param sortedMap This is the sorted file whose lines it will set to the TextArea.
      */
-    public void setTextArea(){
-        File file = new File("scoresSorted.txt");
+    public void setTextArea(String sortedMap){
+        File file = new File(sortedMap);
         int c = 1;
         try (Scanner input = new Scanner(file)) {
             while (input.hasNextLine() && c < 11 ) {

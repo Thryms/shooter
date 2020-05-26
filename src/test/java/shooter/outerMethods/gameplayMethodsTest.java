@@ -1,11 +1,11 @@
-package shooter;
+package shooter.outerMethods;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import shooter.gameplayMethods;
+import shooter.outerMethods.gameplayMethods;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +37,7 @@ class gameplayMethodsTest {
 
     @Test
     void calculateScoreText() {
-        assertEquals(1063, gameplayMethods.calculateScore(new Text("40"),100,50,4));
-        assertEquals(737, gameplayMethods.calculateScore(new Text("60"),101,64,13));
+        assertEquals(1063, gameplayMethods.calculateScore("40",100,50,4));
+        assertEquals(737, gameplayMethods.calculateScore("60",101,64,13));
     }
 }

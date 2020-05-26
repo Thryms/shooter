@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -78,7 +77,12 @@ public class Menu {
         maps.setVisible(true);
     }
 
-    public void goAfghanistan(ActionEvent event) throws IOException{
+    /**
+     * If called loads the afghanistan map.
+     * @param event Click on button
+     * @throws IOException FXMLLoader
+     */
+    public void goAfghanistan(ActionEvent event) throws IOException {
         log.info("Changing scene to Afghanistan");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/playAfghanFXML.fxml"));
@@ -87,6 +91,11 @@ public class Menu {
         a.pause();
     }
 
+    /**
+     * If called loads the afghanistan map.
+     * @param event Click on button
+     * @throws IOException FXMLLoader
+     */
     public void goSyria(ActionEvent event) throws IOException{
         log.info("Changing scene to play Syria");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -1,8 +1,12 @@
-package shooter;
+package shooter.outerMethods;
 
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 @Slf4j
 public class gameplayMethods {
@@ -53,11 +57,33 @@ public class gameplayMethods {
      * @param missedShots The number of shots the player misses.
      * @return The calculated score as Integer.
      */
-    public static int calculateScore(Text finalTime, int score, int killed, int missedShots) {
+    public static int calculateScore(String finalTime, int score, int killed, int missedShots) {
         log.info("Calculating score...");
-        int finalTimeSecInt = Integer.parseInt(finalTime.getText());
+        int finalTimeSecInt = Integer.parseInt(finalTime);
         double kmf = killed + missedShots + finalTimeSecInt;
         double finScore = ((double) score / kmf) * 1000;
         return (int)finScore;
+    }
+
+    /**
+     * This as it's name says stores the score the player got. It writes the data in a text file, with a space
+     * between each data of course keeping the old data too. [The text file could be called only this way. If it's
+     * being set with classloader the FileWriter won't found it, and there will be an error. This error does not
+     * occur only if the file is in the root directory, this way i put it there.]
+     * @throws IOException by FileWriter, if the named file exists but is a directory rather than a regular file,
+     * does not exist but cannot be created, or cannot be opened for any other reason.
+     * BufferedWriter- If an I/O error occurs.
+     */
+    public static void storeScore(String map, String name, int score, String time, int missed, int killed) throws IOException {
+        log.info("storing data");
+        FileWriter fw = new FileWriter(map,true);
+        BufferedWriter writer = new BufferedWriter(fw);
+        writer.write(name);
+        writer.write(" "+score);
+        writer.write(" "+time);
+        writer.write(" "+missed);
+        writer.write(" "+killed);
+        writer.newLine();
+        writer.close();
     }
 }

@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DurationFormatUtils;
-import shooter.gameplayMethods;
+import shooter.outerMethods.gameplayMethods;
 
 import java.io.*;
 import java.util.Random;
@@ -34,7 +34,7 @@ public class syria {
     @FXML
     private Pane one, two, three, four, five, six, seven, nameEnter, results, ingameScore;
     @FXML
-    private Text scoreT, killedT, missedT, finalTimeT, goodJobT, finalScoreT, finalTimeSecT;
+    private Text scoreT, killedT, missedT, finalTimeT, goodJobT, finalScoreT;
     @FXML
     private Label timeL;
     @FXML
@@ -44,7 +44,8 @@ public class syria {
     @FXML
     private ImageView syriaBcg,enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven;
 
-    private int whichEnemy,missedShots,finalScore;
+    private int whichEnemy;
+    private int missedShots;
     private int killed = 0, score = 0;
     private Pane thisEnemy;
     private long start, millisElapsed;
@@ -87,6 +88,7 @@ public class syria {
     public void start(ActionEvent event) throws IOException {
         nameEnter.setVisible(false);
         scoreT.setText("Score: " + score);
+        missedShots=0;
         scoreCheck();
         timer();
     }
@@ -157,43 +159,22 @@ public class syria {
     /**
      * First it deletes the score field and the exit button and makes the result field visible.
      * Then it prints things (the name, the time, the kills, the missed
-     * shots, and also the score) on it. At he end it calls method {@code storeScore}.
+     * shots, and also the score) on it. At he end it calls method {@code storeScore} in {@code gameplayMethods}.
      * @throws IOException by storeScore's FileWriter
      */
     public void win() throws IOException{
         ingameScore.setVisible(false);
         exitB.setVisible(false);
         results.setVisible(true);
-        goodJobT.setText("Good job " + gameplayMethods.getName(nameTF) + "!");
+        String name = gameplayMethods.getName(nameTF);
+        goodJobT.setText("Good job " + name + "!");
         finalTimeT.setText(DurationFormatUtils.formatDuration(millisElapsed, "mm:ss"));
-        finalTimeSecT.setText(DurationFormatUtils.formatDuration(millisElapsed, "ss"));
+        String finalTimeSecT = (DurationFormatUtils.formatDuration(millisElapsed, "ss"));
         killedT.setText("and killed " + killed + " terrorists,");
         missedT.setText(gameplayMethods.missedText(missedShots));
-        finalScore = gameplayMethods.calculateScore(finalTimeSecT,score,killed,missedShots);
+        int finalScore = gameplayMethods.calculateScore(finalTimeSecT, score, killed, missedShots);
         finalScoreT.setText("Your calculated score is: " + finalScore);
-        storeScore();
-    }
-
-    /**
-     * This as it's name says stores the score the player got. It writes the data in a text file, with a space
-     * between each data of course keeping the old data too. [The text file could be called only this way. If it's
-     * being set with classloader the FileWriter won't found it, and there will be an error. This error does not
-     * occur only if the file is in the root directory, this way i put it there.]
-     * @throws IOException by FileWriter, if the named file exists but is a directory rather than a regular file,
-     * does not exist but cannot be created, or cannot be opened for any other reason.
-     * BufferedWriter- If an I/O error occurs.
-     */
-    private void storeScore() throws IOException {
-        log.info("storing data");
-        FileWriter fw = new FileWriter("scoresSyria.txt",true);
-        BufferedWriter writer = new BufferedWriter(fw);
-        writer.write(gameplayMethods.getName(nameTF));
-        writer.write(" "+finalScore);
-        writer.write(" "+finalTimeT.getText());
-        writer.write(" "+missedShots);
-        writer.write(" "+killed);
-        writer.newLine();
-        writer.close();
+        gameplayMethods.storeScore("scoresSyria.txt", name, finalScore, finalTimeT.getText(), missedShots,killed);
     }
 
     /**

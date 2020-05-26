@@ -10,10 +10,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.SystemUtils;
+import shooter.outerMethods.highscoreMethods;
 
 import java.io.*;
 
@@ -33,54 +37,51 @@ public class HighScore {
      */
 
     @FXML
-    private ImageView hsBcg,muteIV,loadIV,menuButtonIV;
+    private ImageView hsBcg,muteIV,loadIV,menuButtonIV,clearIV;
     @FXML
-    private TextArea textArea;
+    private TextArea textArea,placements;
     @FXML
     private ChoiceBox<String> choiceBox;
+    @FXML
+    private Text titles;
 
     private  MediaPlayer a;
     private boolean isThereData = false, music=true;
+    private String whichMap;
 
     /**
      * In the {@code initialize} it loads the background image also the image of the button. Also calls
      * {@code sortScores} which sorts the scores, and {@code setTextArea} where it loads the data in the TextArea if
      * there is data in the file (technically there is always is a newline in in bat that is not what we need).
      * And finally it starts the background music.
-     * @throws IOException by sortScores's FileWriter and FileReader
      */
     @FXML
-    public void initialize() throws IOException {
+    public void initialize() {
         hsBcg.setImage(new Image(getClass().getResource("/images/menuS/menuBcg.png").toExternalForm()));
         menuButtonIV.setImage(new Image(getClass().getResource("/images/menuS/menuButtonBcg.png").toExternalForm()));
         muteIV.setImage(new Image(getClass().getResource("/images/menuS/muteBcg.png").toExternalForm()));
         loadIV.setImage(new Image(getClass().getResource("/images/menuS/loadBcg.png").toExternalForm()));
+        clearIV.setImage(new Image(getClass().getResource("/images/menuS/clearBcg.png").toExternalForm()));
         music();
         choiceBox.getItems().addAll("Afghan","Syrian");
+        getOS();
     }
 
     /**
-     * Here it gets the value of the choicebox, and according to what did the user chose ot loads the scores of
-     * that map and calls the sorting and writing methods with the correct strings.
-     * @param event Click on button
-     * @throws IOException If setTextArea() throws an exception
+     * According to the operating system it sets the fonts of the texts.
      */
-    public void getChoice(ActionEvent event) throws IOException{
-        String whichMap = choiceBox.getValue();
-        if (whichMap != null && whichMap.equals("Syrian")) {
-                sortScores("scoresSyria.txt", "scoresSyriaSorted.txt");
-                if(isThereData){
-                    textArea.clear();
-                    setTextArea("scoresSyriaSorted.txt");
-                }
-        } else if (whichMap != null && whichMap.equals("Afghan")){
-                sortScores("scoresAfghan.txt","scoresAfghanSorted.txt");
-                if(isThereData){
-                    textArea.clear();
-                    setTextArea("scoresAfghanSorted.txt");
-                }
+    private void getOS(){
+        if (SystemUtils.IS_OS_WINDOWS_10){
+            textArea.setFont(Font.font("monospace"));
+            titles.setFont(Font.font("monospace"));
+            placements.setFont(Font.font("monospace"));
+        } else if (SystemUtils.IS_OS_LINUX){
+            textArea.setFont(Font.font("FreeMono"));
+            titles.setFont(Font.font("FreeMono"));
+            placements.setFont(Font.font("FreeMono"));
         }
     }
+
     /**
      * This class is for initializing the result which it will use later to sort the scores.
      */
@@ -144,10 +145,10 @@ public class HighScore {
         FileWriter fw = new FileWriter(sortedmap);
         BufferedWriter writer = new BufferedWriter(fw);
         for (result result : resultArrayList){
-            writer.write(result.name+checkScore(result.score));
+            writer.write(result.name+highscoreMethods.checkScore(result.score));
             writer.write(result.score+"     ");
-            writer.write(result.time+checkMisses(result.misses));
-            writer.write(result.misses+checkKills(result.kills));
+            writer.write(result.time+highscoreMethods.checkMisses(result.misses));
+            writer.write(result.misses+highscoreMethods.checkKills(result.kills));
             writer.write(result.kills+"\n");
             log.info("Writing one sorted line");
         }
@@ -157,55 +158,26 @@ public class HighScore {
         log.info("BufferWriter closed");
     }
 
-    public void toArray(String map){
-
-    }
-
     /**
-     * Here as in the following 2 methods it just sets the scoresSorted text. It basically checks how long is
-     * the score (in this case) and returns spaces. This is because this way in the scoresSorted text file the
-     * same type of data will be under each other in a line so it is better for the eye.
-     * [It might not be the most elegant way to do it but it works fine.]
-     * @param score score
-     * @return A string of spaces.
+     * Here it gets the value of the choice box, and according to what did the user chose ot loads the scores of
+     * that map and calls the sorting and writing methods with the correct strings.
+     * @param event Click on button
+     * @throws IOException If setTextArea() throws an exception
      */
-    private String checkScore(int score){
-        if (score > -1 && score < 10){
-            return "        ";
-        } else if(score > 9 && score < 100){
-            return "       ";
-        } else if(score > 99 && score < 1000){
-            return "      ";
-        } else {
-            return "     ";
-        }
-    }
-
-    /**
-     * Here it checks the misses.
-     * @param miss misses
-     * @return A string of spaces
-     */
-    private String checkMisses(int miss) {
-        if (miss > -1 && miss < 10){
-            return "       ";
-        } else if(miss > 9 && miss < 100){
-            return "      ";
-        } else {
-            return "     ";
-        }
-    }
-
-    /**
-     * Here it checks the kills.
-     * @param kills kills
-     * @return A string of spaces.
-     */
-    private String checkKills(int kills){
-        if(kills < 100){
-            return "      ";
-        } else {
-            return "     ";
+    public void getChoice(ActionEvent event) throws IOException{
+        whichMap = choiceBox.getValue();
+        if (whichMap != null && whichMap.equals("Syrian")) {
+            sortScores("scoresSyria.txt", "scoresSyriaSorted.txt");
+            if(isThereData){
+                textArea.clear();
+                setTextArea("scoresSyriaSorted.txt");
+            }
+        } else if (whichMap != null && whichMap.equals("Afghan")){
+            sortScores("scoresAfghan.txt","scoresAfghanSorted.txt");
+            if(isThereData){
+                textArea.clear();
+                setTextArea("scoresAfghanSorted.txt");
+            }
         }
     }
 
@@ -238,12 +210,12 @@ public class HighScore {
      * @throws IOException by FXMLLoader.load
      */
     public void menuGoGo(ActionEvent event) throws IOException {
+        log.info("Going back to Menu from the High Score");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFXML.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
         a.pause();
-        log.info("Going back to Menu from the High Score");
     }
 
     /**
@@ -252,6 +224,7 @@ public class HighScore {
      * music will stop after few seconds!]
      */
     private void music(){
+        log.info("Playing music in HighScore");
         Media med = new Media(getClass().getResource("/sounds/hsMusic.mp3").toExternalForm());
         a =new MediaPlayer(med);
         a.setVolume(0.8);
@@ -261,7 +234,6 @@ public class HighScore {
                 a.seek(Duration.ZERO);
             }
         });
-        log.info("Playing music in HighScore");
     }
 
     /**
@@ -282,4 +254,36 @@ public class HighScore {
             muteIV.setImage(new Image(getClass().getResource("/images/menuS/muteBcg.png").toExternalForm()));
         }
     }
+
+    /**
+     * Depending on the chosen map it calls the {@code clear} method with the correct strings.
+     * @param event CLick on button "clear scores"
+     * @throws IOException by {@code clear} method
+     */
+    public void clearPress(ActionEvent event) throws IOException {
+        if(whichMap.equals("Afghan")){
+            clear("scoresAfghan.txt","scoresAfghanSorted.txt");
+        } else if (whichMap.equals("Syrian")){
+            clear("scoresSyria.txt","scoresSyriaSorted.txt");
+        }
+    }
+
+    /**
+     * Called by {@code clearPress}. Here it basically replaces the score file with empty, then clears the TextArea.
+     * @param scores The file where the scores are
+     * @param sorted The file where the sorted scores are
+     * @throws IOException by FileWriter/Reader, if the named file exists but is a directory rather than a regular file,
+     * does not exist but cannot be created, or cannot be opened for any other reason.
+     * BufferedWriter/Reader- If an I/O error occurs.
+     */
+    private void clear(String scores, String sorted) throws IOException{
+        log.info("Deleting data from "+scores);
+        FileWriter fr = new FileWriter(scores);
+        BufferedWriter writer = new BufferedWriter(fr);
+        writer.write("");
+        writer.close();
+        sortScores(scores,sorted);
+        textArea.clear();
+    }
+
 }

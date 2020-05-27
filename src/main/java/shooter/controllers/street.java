@@ -40,7 +40,7 @@ public class street {
     @FXML
     private TextField nameTF;
     @FXML
-    private Button exitB;
+    private Button exitB, muteB;
     @FXML
     private ImageView streetBcg,enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven;
 
@@ -248,10 +248,12 @@ public class street {
             log.info("Music muted");
             music = false;
             a.pause();
+            muteB.setText("Unmute");
         } else {
             log.info("Music unmuted");
             music = true;
             a.play();
+            muteB.setText("Mute");
         }
     }
 }

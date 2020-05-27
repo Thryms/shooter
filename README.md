@@ -16,6 +16,8 @@ If you click and move the mouse while clicked it won't count as a shoot!
 
 I think this all you need to know, Good Luck, Have Fun!
 
+The newest version's (1.0.2.1) .jar is available [here](https://drive.google.com/open?id=1SpzP2aXO3KW5hqk-0vMTsfOL1x713s4-) .
+
 Thoughts about the project
 ==========================
 
@@ -25,4 +27,3 @@ development, but some kind of "developer mindset" was build in me at least.
 
 Also based on the feedback on the game from friends and family the game is good, so I 
 guess I reached my goal. 
-    

@@ -77,7 +77,7 @@ public class gameplayMethods {
      */
     public static void storeScore(String string, String name, int score, String time, int missed, int killed) throws IOException {
         log.info("storing data");
-        FileWriter fw = new FileWriter("scores/"+string,true);
+        FileWriter fw = new FileWriter(string,true);
         BufferedWriter writer = new BufferedWriter(fw);
         writer.write(name);
         writer.write(" "+score);

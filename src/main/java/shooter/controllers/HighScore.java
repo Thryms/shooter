@@ -127,7 +127,7 @@ public class HighScore {
      *  BufferedWriter- If an I/O error occurs.
      */
     public void sortScores(String map,String sortedmap) throws IOException{
-        FileReader fr = new FileReader("scores/"+map);
+        FileReader fr = new FileReader(map);
         BufferedReader reader = new BufferedReader(fr);
         ArrayList<result> resultArrayList = new ArrayList<result>();
         String currentLine = reader.readLine();
@@ -145,7 +145,7 @@ public class HighScore {
             log.info("Breaking down one line into arrays");
         }
         resultArrayList.sort(new scoreCompare());
-        FileWriter fw = new FileWriter("scores/"+sortedmap);
+        FileWriter fw = new FileWriter(sortedmap);
         BufferedWriter writer = new BufferedWriter(fw);
         for (result result : resultArrayList){
             writer.write(result.name+highscoreMethods.checkScore(result.score));
@@ -190,7 +190,7 @@ public class HighScore {
      * @param sortedMap This is the sorted file whose lines it will set to the TextArea.
      */
     public void setTextArea(String sortedMap){
-        File file = new File("scores/"+sortedMap);
+        File file = new File(sortedMap);
         int c = 1;
         try (Scanner input = new Scanner(file)) {
             while (input.hasNextLine() && c < 11 ) {
@@ -276,7 +276,7 @@ public class HighScore {
      */
     private void clear(String scores, String sorted) throws IOException{
         log.info("Deleting data from "+scores);
-        FileWriter fr = new FileWriter("scores/"+scores);
+        FileWriter fr = new FileWriter(scores);
         BufferedWriter writer = new BufferedWriter(fr);
         writer.write("");
         writer.close();

@@ -40,7 +40,7 @@ public class syria {
     @FXML
     private TextField nameTF;
     @FXML
-    private Button exitB;
+    private Button exitB, muteB;
     @FXML
     private ImageView syriaBcg,enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven;
 
@@ -255,10 +255,12 @@ public class syria {
             log.info("Music muted");
             music = false;
             a.pause();
+            muteB.setText("Unmute");
         } else {
             log.info("Music unmuted");
             music = true;
             a.play();
+            muteB.setText("Mute");
         }
     }
 }

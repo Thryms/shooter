@@ -4,9 +4,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 @Slf4j
 public class gameplayMethods {
@@ -20,10 +18,13 @@ public class gameplayMethods {
      */
     public static String getName(TextField tf) {
         Text nameT = new Text();
-        if (tf.getText() != null && !tf.getText().isEmpty() && tf.getText().length() == 3) {
-            nameT.setText((tf.getText().toUpperCase()));
-        } else if (tf.getText() != null && !tf.getText().isEmpty() && tf.getText().length() > 3){
-            nameT.setText(tf.getText().toUpperCase().substring(0,3));
+        String[] name = tf.getText().split(" ");
+        if (name.length==0){
+            nameT.setText("AAA");
+        }else if (tf.getText() != null && !tf.getText().isEmpty() && name[0].length() == 3) {
+            nameT.setText(name[0].toUpperCase());
+        } else if (tf.getText() != null && !tf.getText().isEmpty() && name[0].length() > 3){
+            nameT.setText(name[0].toUpperCase().substring(0,3));
         } else {
             nameT.setText("AAA");
         }
@@ -74,9 +75,9 @@ public class gameplayMethods {
      * does not exist but cannot be created, or cannot be opened for any other reason.
      * BufferedWriter- If an I/O error occurs.
      */
-    public static void storeScore(String map, String name, int score, String time, int missed, int killed) throws IOException {
+    public static void storeScore(String string, String name, int score, String time, int missed, int killed) throws IOException {
         log.info("storing data");
-        FileWriter fw = new FileWriter(map,true);
+        FileWriter fw = new FileWriter("scores/"+string,true);
         BufferedWriter writer = new BufferedWriter(fw);
         writer.write(name);
         writer.write(" "+score);

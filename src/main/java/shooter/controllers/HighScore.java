@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
@@ -44,6 +45,8 @@ public class HighScore {
     private ChoiceBox<String> choiceBox;
     @FXML
     private Text titles;
+    @FXML
+    private Pane confirmPane;
 
     private  MediaPlayer a;
     private boolean isThereData = false, music=true;
@@ -124,7 +127,7 @@ public class HighScore {
      *  BufferedWriter- If an I/O error occurs.
      */
     public void sortScores(String map,String sortedmap) throws IOException{
-        FileReader fr = new FileReader(map);
+        FileReader fr = new FileReader("scores/"+map);
         BufferedReader reader = new BufferedReader(fr);
         ArrayList<result> resultArrayList = new ArrayList<result>();
         String currentLine = reader.readLine();
@@ -142,7 +145,7 @@ public class HighScore {
             log.info("Breaking down one line into arrays");
         }
         resultArrayList.sort(new scoreCompare());
-        FileWriter fw = new FileWriter(sortedmap);
+        FileWriter fw = new FileWriter("scores/"+sortedmap);
         BufferedWriter writer = new BufferedWriter(fw);
         for (result result : resultArrayList){
             writer.write(result.name+highscoreMethods.checkScore(result.score));
@@ -187,7 +190,7 @@ public class HighScore {
      * @param sortedMap This is the sorted file whose lines it will set to the TextArea.
      */
     public void setTextArea(String sortedMap){
-        File file = new File(sortedMap);
+        File file = new File("scores/"+sortedMap);
         int c = 1;
         try (Scanner input = new Scanner(file)) {
             while (input.hasNextLine() && c < 11 ) {
@@ -256,16 +259,11 @@ public class HighScore {
     }
 
     /**
-     * Depending on the chosen map it calls the {@code clear} method with the correct strings.
+     * Sets the pane's visibility true.
      * @param event CLick on button "clear scores"
-     * @throws IOException by {@code clear} method
      */
-    public void clearPress(ActionEvent event) throws IOException {
-        if(whichMap.equals("Afghan")){
-            clear("scoresAfghan.txt","scoresAfghanSorted.txt");
-        } else if (whichMap.equals("Syrian")){
-            clear("scoresSyria.txt","scoresSyriaSorted.txt");
-        }
+    public void clearPress(ActionEvent event) {
+        confirmPane.setVisible(true);
     }
 
     /**
@@ -278,7 +276,7 @@ public class HighScore {
      */
     private void clear(String scores, String sorted) throws IOException{
         log.info("Deleting data from "+scores);
-        FileWriter fr = new FileWriter(scores);
+        FileWriter fr = new FileWriter("scores/"+scores);
         BufferedWriter writer = new BufferedWriter(fr);
         writer.write("");
         writer.close();
@@ -286,4 +284,26 @@ public class HighScore {
         textArea.clear();
     }
 
+    /**
+     * If yes button pressed it deletes the scores connected to the file in the chose bar.
+     * @param event Click on button yes
+     * @throws IOException by {@code clear} method
+     */
+    public void yes(ActionEvent event) throws IOException {
+        confirmPane.setVisible(false);
+        if(whichMap != null && whichMap.equals("Afghan")){
+            clear("scoresAfghan.txt","scoresAfghanSorted.txt");
+        } else if (whichMap != null && whichMap.equals("Syrian")){
+            clear("scoresSyria.txt","scoresSyriaSorted.txt");
+        }
+    }
+
+    /**
+     * Sets the pane invisible.
+     * @param event Click on button no.
+     */
+    public void no(ActionEvent event){
+        confirmPane.setVisible(false);
+        textArea.clear();
+    }
 }

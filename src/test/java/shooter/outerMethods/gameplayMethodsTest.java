@@ -22,10 +22,13 @@ class gameplayMethodsTest {
         assertEquals("AAA",gameplayMethods.getName(new TextField()));
         assertEquals("LOK",gameplayMethods.getName(new TextField("LOK")));
         assertEquals("AAA",gameplayMethods.getName(new TextField("s")));
-        assertEquals("   ",gameplayMethods.getName(new TextField("   ")));
+        assertEquals("AAA",gameplayMethods.getName(new TextField("   ")));
         assertEquals("K73",gameplayMethods.getName(new TextField("k73")));
         assertEquals("+-/",gameplayMethods.getName(new TextField("+-/")));
         assertEquals("AAA",gameplayMethods.getName(new TextField("te")));
+        assertEquals("ASD",gameplayMethods.getName(new TextField("asd asd")));
+        assertEquals("AFC",gameplayMethods.getName(new TextField("afc ada")));
+        assertEquals("AAA",gameplayMethods.getName(new TextField("lp jus")));
     }
 
     @Test

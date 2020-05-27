@@ -96,7 +96,6 @@
                 <Text fx:id="missedT" layoutX="6.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="missed" textAlignment="CENTER" wrappingWidth="450.0" />
                 <Text fx:id="finalTimeT" layoutX="56.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="finaltime" textAlignment="CENTER" wrappingWidth="350.46728515625" />
                 <Text fx:id="finalScoreT" layoutX="6.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2em;" text="Your calculated score is:" textAlignment="CENTER" wrappingWidth="450.0" />
-                <Text fx:id="finalTimeSecT" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="finalTimeSecT" visible="false" />
                 <Button layoutX="158.0" layoutY="327.0" mnemonicParsing="false" onAction="#toMenu" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #8a9a5b; -fx-font-size: 2.5em; -fx-border-radius: 10em;" text="Menu" textFill="#f1ff2d" />
             </children>
         </Pane>

@@ -40,7 +40,7 @@ public class street {
     @FXML
     private TextField nameTF;
     @FXML
-    private Button exitB,muteB;
+    private Button exitB;
     @FXML
     private ImageView streetBcg,enemyOne,enemyTwo,enemyThree,enemyFour,enemyFive,enemySix,enemySeven;
 
@@ -56,7 +56,7 @@ public class street {
      */
     @FXML
     public void initialize(){
-        streetBcg.setImage(new Image(getClass().getResource("/images/street/bcgStreet.png").toExternalForm()));;
+        streetBcg.setImage(new Image(getClass().getResource("/images/street/bcgStreet.png").toExternalForm()));
         music();
     }
 
@@ -167,7 +167,7 @@ public class street {
         missedT.setText(gameplayMethods.missedText(missedShots));
         int finalScore = gameplayMethods.calculateScore(finalTimeSecT,score,killed,missedShots);
         finalScoreT.setText("Your calculated score is: " + finalScore);
-        gameplayMethods.storeScore("scoresSyria.txt", name, finalScore, finalTimeT.getText(), missedShots,killed);
+        gameplayMethods.storeScore("scoresAfghan.txt", name, finalScore, finalTimeT.getText(), missedShots,killed);
     }
 
     /**
@@ -248,12 +248,10 @@ public class street {
             log.info("Music muted");
             music = false;
             a.pause();
-            muteB.setText("Unmute");
         } else {
             log.info("Music unmuted");
             music = true;
             a.play();
-            muteB.setText("Mute");
         }
     }
 }

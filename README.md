@@ -8,7 +8,11 @@ The enemies will appear on the screen and you shoot them by clicking on them.
 The point system works like this:
 1. You get 1 point if you hit the body.
 2. You get 2 points if you hit the head.
-3. (Arm counts as miss because that is non lethal.)
+3. (Arm, leg counts as miss because that is non lethal.)
+
+The game works best on Linux or Windows 10.
+
+If you click and move the mouse while clicked it won't count as a shoot!
 
 I think this all you need to know, Good Luck, Have Fun!
 
